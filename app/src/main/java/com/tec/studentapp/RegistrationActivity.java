@@ -21,7 +21,7 @@ public class RegistrationActivity extends AppCompatActivity {
         final Button scanner = (Button) findViewById(R.id.scanner);
         carnet = (TextView) findViewById(R.id.carnet);
 
-        scanner.setOnClickListener(new View.OnClickListener() {
+        carnet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent registerIntent = new Intent(RegistrationActivity.this, BarcodeScanner.class);

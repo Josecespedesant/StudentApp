@@ -44,7 +44,7 @@
         android:layout_marginTop="185dp"
         android:background="#11000000"
         android:ems="10"
-        android:hint="Número de carné"
+        android:hint="Número de carné (scanner)"
         android:inputType="textPersonName" />
 
     <EditText
@@ -112,14 +112,5 @@
         android:layout_marginTop="33dp"
         android:layout_marginEnd="20dp"
         android:text="Ubicación" />
-
-    <Button
-        android:id="@+id/scanner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/location"
-        android:layout_marginEnd="-137dp"
-        android:layout_toStartOf="@+id/volverainiciarsesion"
-        android:text="Scanner" />
 
 </RelativeLayout>
