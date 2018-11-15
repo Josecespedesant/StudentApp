@@ -18,7 +18,6 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         final TextView volverainiciar = (TextView) findViewById(R.id.volverainiciarsesion);
-        final Button scanner = (Button) findViewById(R.id.scanner);
         carnet = (TextView) findViewById(R.id.carnet);
 
         carnet.setOnClickListener(new View.OnClickListener() {
