@@ -24,6 +24,13 @@
         android:layout_marginRight="110dp"
         app:srcCompat="@drawable/car" />
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/passwordlogin"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal" />
     <TextView
         android:id="@+id/drivertext"
         android:layout_width="wrap_content"
