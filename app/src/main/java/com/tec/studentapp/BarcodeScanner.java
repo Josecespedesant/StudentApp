@@ -119,10 +119,9 @@ public class BarcodeScanner extends AppCompatActivity implements ZXingScannerVie
                 resultado.putExtra("resultado", myResult);
                 setResult(RESULT_OK, resultado);
                 finish();
-              //  scannerView.resumeCameraPreview(BarcodeScanner.this);
             }
         });
-        builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Atras", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(myResult));

@@ -4,12 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.login.LoginResult;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class RegistrationActivity extends AppCompatActivity {
-    TextView carnet;
+    static TextView carnet;
+    TextView nombre;
 
     //public static String carnet;
     @Override
@@ -17,8 +30,9 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        final TextView volverainiciar = (TextView) findViewById(R.id.volverainiciarsesion);
         carnet = (TextView) findViewById(R.id.carnet);
+        nombre = (TextView) findViewById(R.id.nombre);
+
 
         carnet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,17 +44,14 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-        volverainiciar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent registerIntent = new Intent(RegistrationActivity.this, MainActivity.class);
-                RegistrationActivity.this.startActivity(registerIntent);
-
-            }
-        });
-
        // carnet.setText(BarcodeScanner.myResult.getText());
     }
+    public void setVariables(String name){
+        TextView nombre = (TextView) findViewById(R.id.nombre);
+
+        nombre.setText(name);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -51,5 +62,4 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         }
     }
-
 }
