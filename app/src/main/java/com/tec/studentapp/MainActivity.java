@@ -37,10 +37,11 @@ import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
-    TextView carnet;
     private static final String TAG = "MainActivity";
     private CallbackManager callbackManager;
     private LoginButton loginButton;
+    static TextView carnet;
+    static EditText passwordlogin ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intentt = new Intent(MainActivity.this, BarcodeScanner.class);
                 startActivityForResult(intentt, 1);
                 setFacebookData(loginResult);
+
+
             }
 
 
@@ -95,23 +98,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        try {
-            @SuppressLint("PackageManagerGetSignatures") PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.tec.driverapp",//give your package name here
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d(TAG, "Hash ASLKJDNKJHNLASDOHASHIPDASDPOHIJASDPHO : " + Base64.encodeToString(md.digest(), Base64.NO_WRAP));//Key hash is printing in Log
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.d(TAG, e.getMessage(), e);
-        } catch (NoSuchAlgorithmException e) {
-            Log.d(TAG, e.getMessage(), e);
-        }
+
 
         // variables del XML
-        final EditText contraseñalogin = (EditText) findViewById(R.id.passwordlogin);
+        EditText contraseñalogin = (EditText) findViewById(R.id.passwordlogin);
         final RelativeLayout iniciarsesion = (RelativeLayout) findViewById(R.id.iniciarsesion);
         carnet = (TextView) findViewById(R.id.carnet);
         carnet.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent registerIntent = new Intent(MainActivity.this, BarcodeScanner.class);
                 startActivityForResult(registerIntent, 1);
+
+
             }
         });
 
@@ -131,6 +123,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        iniciarsesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!carnet.getText().toString().isEmpty()&&!passwordlogin.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(),"ME CAGO EN JOSE ANTONIO",Toast.LENGTH_SHORT).show();
+                    Intent mapintent = new Intent(MainActivity.this, StudentMapActivity.class);
+                    MainActivity.this.startActivity(mapintent);
+                }else{
+                    Toast.makeText(getApplicationContext(),"Ingrese todos los valores",Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
 
      /*   registrate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 String resultado = data.getStringExtra("resultado");
                 carnet.setText(resultado);
+                Intent mapa = new Intent(MainActivity.this, MapsActivity.class);
+                MainActivity.this.startActivity(mapa);
             }
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -177,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
                             carnet = (TextView) findViewById(R.id.carnet);
                             final TextView inicioSesion = (TextView) findViewById(R.id.iniciosesion);
                             inicioSesion.setText(firstName+" "+lastName);
+                            Toast.makeText(getApplicationContext(),"Bienvenido " + firstName +" "+ lastName ,Toast.LENGTH_SHORT).show();
                             carnet.setText(carnet.getText()+firstName+" "+lastName); //de aqui se saca el nombre de face
 
                             Profile profile = Profile.getCurrentProfile();

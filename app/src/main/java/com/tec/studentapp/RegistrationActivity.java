@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -22,7 +25,8 @@ import java.net.URL;
 
 public class RegistrationActivity extends AppCompatActivity {
     static TextView carnet;
-    TextView nombre;
+    EditText nombre;
+    EditText password;
 
     //public static String carnet;
     @Override
@@ -31,7 +35,8 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         carnet = (TextView) findViewById(R.id.carnet);
-        nombre = (TextView) findViewById(R.id.nombre);
+        nombre = (EditText) findViewById(R.id.nombre);
+        password = (EditText) findViewById(R.id.passeword);
 
 
         carnet.setOnClickListener(new View.OnClickListener() {
@@ -44,12 +49,21 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-       // carnet.setText(BarcodeScanner.myResult.getText());
-    }
-    public void setVariables(String name){
-        TextView nombre = (TextView) findViewById(R.id.nombre);
+        final RelativeLayout iniciarsesion = (RelativeLayout) findViewById(R.id.registrarse);
 
-        nombre.setText(name);
+        iniciarsesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!carnet.getText().toString().isEmpty()&&!nombre.getText().toString().isEmpty()&&!password.getText().toString().isEmpty()) {
+                  //s MainActivity.passwordlogin.setHint(password.getText());
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Ingresar todos los datos",Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
     }
 
     @Override
@@ -59,6 +73,7 @@ public class RegistrationActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 String resultado = data.getStringExtra("resultado");
                 carnet.setText(resultado);
+                MainActivity.carnet.setText(resultado);
             }
         }
     }
