@@ -28,6 +28,7 @@ public class RegistrationActivity extends AppCompatActivity {
     EditText nombre;
     EditText password;
     static String resultpass;
+    Button ubicacion;
 
     //public static String carnet;
     @Override
@@ -38,6 +39,16 @@ public class RegistrationActivity extends AppCompatActivity {
         carnet = (TextView) findViewById(R.id.carnet);
         nombre = (EditText) findViewById(R.id.nombre);
         password = (EditText) findViewById(R.id.password);
+        ubicacion = (Button) findViewById(R.id.location);
+
+        ubicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ubintent = new Intent(RegistrationActivity.this, StudentMapActivity.class);
+                startActivityForResult(ubintent, 2);
+            }
+        });
+
 
 
         carnet.setOnClickListener(new View.OnClickListener() {

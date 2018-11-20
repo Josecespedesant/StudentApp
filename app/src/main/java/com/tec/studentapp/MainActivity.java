@@ -127,8 +127,6 @@ public class MainActivity extends AppCompatActivity {
                 if(carnet.getText().toString().equals(RegistrationActivity.carnet.getText().toString()) && passwordlogin.getText().toString().equals(RegistrationActivity.resultpass)){
 
                     Toast.makeText(getApplicationContext(),"ME CAGO EN JOSE ANTONIO",Toast.LENGTH_SHORT).show();
-                    //Intent mapintent = new Intent(MainActivity.this, StudentMapActivity.class);
-                    //MainActivity.this.startActivity(mapintent);
                 }else{
                     Toast.makeText(getApplicationContext(),"Carnet o contraseña invalida",Toast.LENGTH_SHORT).show();
 
