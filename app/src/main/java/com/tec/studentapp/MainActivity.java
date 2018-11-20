@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intentt = new Intent(MainActivity.this, BarcodeScanner.class);
                 startActivityForResult(intentt, 1);
                 setFacebookData(loginResult);
-
-
             }
 
 
@@ -101,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // variables del XML
-        EditText contraseñalogin = (EditText) findViewById(R.id.passwordlogin);
+        passwordlogin = (EditText) findViewById(R.id.passwordlogin);
         final RelativeLayout iniciarsesion = (RelativeLayout) findViewById(R.id.iniciarsesion);
         carnet = (TextView) findViewById(R.id.carnet);
         carnet.setOnClickListener(new View.OnClickListener() {
@@ -126,12 +124,13 @@ public class MainActivity extends AppCompatActivity {
         iniciarsesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!carnet.getText().toString().isEmpty()&&!passwordlogin.getText().toString().isEmpty()){
+                if(carnet.getText().toString().equals(RegistrationActivity.carnet.getText().toString()) && passwordlogin.getText().toString().equals(RegistrationActivity.resultpass)){
+
                     Toast.makeText(getApplicationContext(),"ME CAGO EN JOSE ANTONIO",Toast.LENGTH_SHORT).show();
-                    Intent mapintent = new Intent(MainActivity.this, StudentMapActivity.class);
-                    MainActivity.this.startActivity(mapintent);
+                    //Intent mapintent = new Intent(MainActivity.this, StudentMapActivity.class);
+                    //MainActivity.this.startActivity(mapintent);
                 }else{
-                    Toast.makeText(getApplicationContext(),"Ingrese todos los valores",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Carnet o contraseña invalida",Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -162,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 String resultado = data.getStringExtra("resultado");
                 carnet.setText(resultado);
-                Intent mapa = new Intent(MainActivity.this, MapsActivity.class);
-                MainActivity.this.startActivity(mapa);
+               // Intent mapa = new Intent(MainActivity.this, MapsActivity.class);
+                //MainActivity.this.startActivity(mapa);
             }
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -183,8 +182,7 @@ public class MainActivity extends AppCompatActivity {
                             String lastName = response.getJSONObject().getString("last_name");
                             Log.i("Response",firstName);
                             carnet = (TextView) findViewById(R.id.carnet);
-                            final TextView inicioSesion = (TextView) findViewById(R.id.iniciosesion);
-                            inicioSesion.setText(firstName+" "+lastName);
+
                             Toast.makeText(getApplicationContext(),"Bienvenido " + firstName +" "+ lastName ,Toast.LENGTH_SHORT).show();
                             carnet.setText(carnet.getText()+firstName+" "+lastName); //de aqui se saca el nombre de face
 

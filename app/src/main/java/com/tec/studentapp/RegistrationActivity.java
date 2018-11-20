@@ -27,6 +27,7 @@ public class RegistrationActivity extends AppCompatActivity {
     static TextView carnet;
     EditText nombre;
     EditText password;
+    static String resultpass;
 
     //public static String carnet;
     @Override
@@ -36,7 +37,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         carnet = (TextView) findViewById(R.id.carnet);
         nombre = (EditText) findViewById(R.id.nombre);
-        password = (EditText) findViewById(R.id.passeword);
+        password = (EditText) findViewById(R.id.password);
 
 
         carnet.setOnClickListener(new View.OnClickListener() {
@@ -50,13 +51,19 @@ public class RegistrationActivity extends AppCompatActivity {
         });
 
         final RelativeLayout iniciarsesion = (RelativeLayout) findViewById(R.id.registrarse);
-
         iniciarsesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!carnet.getText().toString().isEmpty()&&!nombre.getText().toString().isEmpty()&&!password.getText().toString().isEmpty()) {
-                  //s MainActivity.passwordlogin.setHint(password.getText());
+                    resultpass = password.getText().toString();
+                    MainActivity.carnet.setText(carnet.getText().toString());
+                    MainActivity.passwordlogin.setText(password.getText().toString());
                     finish();
+                    //Toast.makeText(getApplicationContext(),"Binvenido :"+nombre.getText().toString(), Toast.LENGTH_SHORT).show();
+                    //se manda al mapa
+                    // Intent mapa = new Intent(MainActivity.this, MapsActivity.class);
+                    //MainActivity.this.startActivity(mapa);
+
                 }else{
                     Toast.makeText(getApplicationContext(),"Ingresar todos los datos",Toast.LENGTH_SHORT).show();
 

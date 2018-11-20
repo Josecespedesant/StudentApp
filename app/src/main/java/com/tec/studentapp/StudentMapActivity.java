@@ -32,10 +32,10 @@
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_student_map);
+            //setContentView(R.layout.activity_student_map);
             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-            mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map);
+           // mapFragment = (SupportMapFragment) getSupportFragmentManager()
+         //           .findFragmentById(R.id.map);
 
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(StudentMapActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
@@ -52,7 +52,7 @@
                 return;
             }
             buildGoogleApiClient();
-            mMap.setMyLocationEnabled(true);
+       //     mMap.setMyLocationEnabled(true);
         }
 
         protected synchronized void buildGoogleApiClient(){
@@ -87,7 +87,7 @@
                 ActivityCompat.requestPermissions(StudentMapActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
             }
 
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+         //   LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         }
 
         @Override

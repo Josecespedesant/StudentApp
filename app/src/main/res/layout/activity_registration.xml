@@ -48,7 +48,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/contrasregistr"
+        android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_alignParentTop="true"

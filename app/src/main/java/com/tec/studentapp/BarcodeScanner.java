@@ -34,7 +34,7 @@ public class BarcodeScanner extends AppCompatActivity implements ZXingScannerVie
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(checkPermission()){
-                Toast.makeText(BarcodeScanner.this, "Permiso AK7", Toast.LENGTH_LONG).show();
+                Toast.makeText(BarcodeScanner.this, "Por favor escanear el codigo de barras del carné", Toast.LENGTH_LONG).show();
             }else{
                 requestPermission();
             }
