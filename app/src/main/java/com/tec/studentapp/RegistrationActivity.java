@@ -39,17 +39,6 @@ public class RegistrationActivity extends AppCompatActivity {
         carnet = (TextView) findViewById(R.id.carnet);
         nombre = (EditText) findViewById(R.id.nombre);
         password = (EditText) findViewById(R.id.password);
-        ubicacion = (Button) findViewById(R.id.location);
-
-        ubicacion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent ubintent = new Intent(RegistrationActivity.this, StudentMapActivity.class);
-                startActivityForResult(ubintent, 2);
-            }
-        });
-
-
 
         carnet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,26 +50,37 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-        final RelativeLayout iniciarsesion = (RelativeLayout) findViewById(R.id.registrarse);
-        iniciarsesion.setOnClickListener(new View.OnClickListener() {
+        final RelativeLayout registrarse = (RelativeLayout) findViewById(R.id.registrarse);
+        registrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!carnet.getText().toString().isEmpty()&&!nombre.getText().toString().isEmpty()&&!password.getText().toString().isEmpty()) {
                     resultpass = password.getText().toString();
                     MainActivity.carnet.setText(carnet.getText().toString());
                     MainActivity.passwordlogin.setText(password.getText().toString());
+                    getManualRegistrationInfo();
                     finish();
                     //Toast.makeText(getApplicationContext(),"Binvenido :"+nombre.getText().toString(), Toast.LENGTH_SHORT).show();
                     //se manda al mapa
                     // Intent mapa = new Intent(MainActivity.this, MapsActivity.class);
                     //MainActivity.this.startActivity(mapa);
-
+                    getManualRegistrationInfo();
                 }else{
                     Toast.makeText(getApplicationContext(),"Ingresar todos los datos",Toast.LENGTH_SHORT).show();
 
                 }
             }
         });
+    }
+
+    public String[] getManualRegistrationInfo(){
+        //FALTA INCLUIR UBICACION
+        String[] resultado = new String[3];
+
+            resultado[0] = nombre.getText().toString();
+            resultado[1] = password.getText().toString();
+            resultado[2] = carnet.getText().toString();
+            return resultado;
 
     }
 

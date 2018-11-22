@@ -47,38 +47,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-/*--------------------------------------------------------------------------------- sacar el hash
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.tec.studentapp",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
-*/
-
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-             /*   if(carnet.getText().length() == 10){
-                    setFacebookData(loginResult);
-                    Toast.makeText(getApplicationContext(),"ak7",Toast.LENGTH_SHORT).show();
-                    Intent intentt = new Intent(MainActivity.this, RegistrationActivity.class);
-                    //startActivity(intentt);
-                    //goTestSesion();
-                }else {
-                    Toast.makeText(getApplicationContext(),"Scanear carnet primero",Toast.LENGTH_LONG).show();
-                }*/ //--------------------------------------------------------------------------------------------------------------- se comenta para bypassear el scanner
-
                 Intent intentt = new Intent(MainActivity.this, BarcodeScanner.class);
                 startActivityForResult(intentt, 1);
                 setFacebookData(loginResult);
@@ -107,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent registerIntent = new Intent(MainActivity.this, BarcodeScanner.class);
                 startActivityForResult(registerIntent, 1);
-
-
             }
         });
 
@@ -124,26 +95,15 @@ public class MainActivity extends AppCompatActivity {
         iniciarsesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(carnet.getText().toString().equals(RegistrationActivity.carnet.getText().toString()) && passwordlogin.getText().toString().equals(RegistrationActivity.resultpass)){
+                //if(carnet.getText().toString().equals(RegistrationActivity.carnet.getText().toString()) && passwordlogin.getText().toString().equals(RegistrationActivity.resultpass)){
+                    Intent mapa = new Intent(MainActivity.this, StudentMapActivity.class);
+                    MainActivity.this.startActivity(mapa);
+              //  }else{
+//                    Toast.makeText(getApplicationContext(),"Carnet o contraseña invalida",Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(getApplicationContext(),"ME CAGO EN JOSE ANTONIO",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(),"Carnet o contraseña invalida",Toast.LENGTH_SHORT).show();
-
-                }
-
+            //    }
             }
         });
-
-     /*   registrate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent registerIntent = new Intent(MainActivity.this, RegistrationActivity.class);
-                MainActivity.this.startActivity(registerIntent);
-            }
-
-
-        });*/
     }
 
     private void goTestSesion(){

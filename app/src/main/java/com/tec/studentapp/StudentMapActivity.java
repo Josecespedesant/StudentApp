@@ -1,6 +1,8 @@
 package com.tec.studentapp;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -19,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class StudentMapActivity extends FragmentActivity implements OnMapReadyCallback , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener{
@@ -28,6 +31,7 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
     Location lastLocation;
     LocationRequest locationRequest;
     SupportMapFragment mapFragment;
+    Marker ubicacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,19 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
             return;
         }
         buildGoogleApiClient();
-        mMap.setMyLocationEnabled(true);
+        mMap.setMyLocationEnabled(false);
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if(ubicacion==null) {
+                    mMap.clear();
+                    ubicacion = mMap.addMarker(new MarkerOptions().position(latLng));
+
+                    Double lat = ubicacion.getPosition().latitude;
+                    Double lon = ubicacion.getPosition().longitude;
+                }
+            }
+        });
     }
 
     protected synchronized void buildGoogleApiClient(){
@@ -71,9 +87,9 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
-
-
     }
+
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
