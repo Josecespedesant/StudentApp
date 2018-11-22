@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -60,11 +61,16 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
             @Override
             public void onMapClick(LatLng latLng) {
                 if(ubicacion==null) {
-                    mMap.clear();
-                    ubicacion = mMap.addMarker(new MarkerOptions().position(latLng));
+                    ubicacion = mMap.addMarker(new MarkerOptions().position(latLng).title("Tu ubicacion").icon(BitmapDescriptorFactory.fromResource(R.drawable.student)));
+                    if(RegistrationActivity.estudiante != null){
+                        RegistrationActivity.estudiante.setPosLatitud(ubicacion.getPosition().latitude);
+                        RegistrationActivity.estudiante.setPosLongitud(ubicacion.getPosition().longitude);
+                    }
+                    if(MainActivity.estudiante != null){
+                        MainActivity.estudiante.setPosLatitud(ubicacion.getPosition().latitude);
+                        MainActivity.estudiante.setPosLongitud(ubicacion.getPosition().longitude);
+                    }
 
-                    Double lat = ubicacion.getPosition().latitude;
-                    Double lon = ubicacion.getPosition().longitude;
                 }
             }
         });
@@ -94,8 +100,6 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(2000);
-        locationRequest.setFastestInterval(2000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

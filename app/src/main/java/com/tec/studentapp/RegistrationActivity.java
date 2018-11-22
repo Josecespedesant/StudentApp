@@ -16,6 +16,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
+import com.tec.entities.Estudiante;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,12 +30,14 @@ public class RegistrationActivity extends AppCompatActivity {
     EditText password;
     static String resultpass;
     Button ubicacion;
+    static Estudiante estudiante;
 
     //public static String carnet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        estudiante = null;
 
         carnet = (TextView) findViewById(R.id.carnet);
         nombre = (EditText) findViewById(R.id.nombre);
@@ -76,8 +79,9 @@ public class RegistrationActivity extends AppCompatActivity {
     public String[] getManualRegistrationInfo(){
         //FALTA INCLUIR UBICACION
         String[] resultado = new String[3];
+        estudiante = new Estudiante(nombre.getText().toString(),password.getText().toString(),carnet.getText().toString(),0,0);
 
-            resultado[0] = nombre.getText().toString();
+        resultado[0] = nombre.getText().toString();
             resultado[1] = password.getText().toString();
             resultado[2] = carnet.getText().toString();
             return resultado;

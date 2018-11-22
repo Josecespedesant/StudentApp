@@ -31,6 +31,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.tec.entities.Estudiante;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,10 +43,12 @@ public class MainActivity extends AppCompatActivity {
     private LoginButton loginButton;
     static TextView carnet;
     static EditText passwordlogin ;
+    static Estudiante estudiante;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        estudiante = null;
 
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -119,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 String resultado = data.getStringExtra("resultado");
                 carnet.setText(resultado);
-               // Intent mapa = new Intent(MainActivity.this, MapsActivity.class);
-                //MainActivity.this.startActivity(mapa);
+                Intent mapa = new Intent(MainActivity.this, StudentMapActivity.class);
+                MainActivity.this.startActivity(mapa);
             }
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -139,11 +142,11 @@ public class MainActivity extends AppCompatActivity {
                             String firstName = response.getJSONObject().getString("first_name");
                             String lastName = response.getJSONObject().getString("last_name");
                             Log.i("Response",firstName);
-                            carnet = (TextView) findViewById(R.id.carnet);
 
                             Toast.makeText(getApplicationContext(),"Bienvenido " + firstName +" "+ lastName ,Toast.LENGTH_SHORT).show();
                             carnet.setText(carnet.getText()+firstName+" "+lastName); //de aqui se saca el nombre de face
-
+                            String nombreCompleto = firstName + " "+lastName;
+                            estudiante = new Estudiante(nombreCompleto,null,carnet.getText().toString(),0,0);
                             Profile profile = Profile.getCurrentProfile();
                             String id = profile.getId();
                             String link = profile.getLinkUri().toString();
