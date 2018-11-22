@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.tec.entities.Conductor;
 
 public class StudentMapActivity extends FragmentActivity implements OnMapReadyCallback , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener{
 
@@ -33,6 +34,8 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
     LocationRequest locationRequest;
     SupportMapFragment mapFragment;
     Marker ubicacion;
+    Conductor conductor;
+    Marker markerConductor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,9 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
         }
         buildGoogleApiClient();
         mMap.setMyLocationEnabled(false);
+        LatLng locationChofer = new LatLng(conductor.getPosicionHogar().getLat(), conductor.getPosicionHogar().getLon()); //cambiar por la ruta no pos HOGAR
+        markerConductor = mMap.addMarker(new MarkerOptions().position(locationChofer).title("Ride").icon(BitmapDescriptorFactory.fromResource(R.drawable.car_left)));
+
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -88,7 +94,6 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
-
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));

@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         // Application code
+
                         try {
                             Log.i("Response",response.toString());
                             String firstName = response.getJSONObject().getString("first_name");

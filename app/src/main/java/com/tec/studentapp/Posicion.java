@@ -1,5 +1,7 @@
 package com.tec.studentapp;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class Posicion {
     private double lat;
     private double lon;
@@ -8,7 +10,6 @@ public class Posicion {
         this.lat = lat;
         this.lon = lon;
     }
-
     public double getLat() {
         return lat;
     }
