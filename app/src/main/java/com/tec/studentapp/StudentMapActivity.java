@@ -4,12 +4,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.location.Location;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -19,6 +24,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -58,13 +64,16 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        final LatLng  posTEC = new LatLng(9.857191, -83.912284);
+        Marker TEC = mMap.addMarker(new MarkerOptions().position(posTEC).title("TEC").icon(BitmapDescriptorFactory.fromResource(R.drawable.tec)));
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         buildGoogleApiClient();
         mMap.setMyLocationEnabled(false);
-        LatLng locationChofer = new LatLng(conductor.getPosicionHogar().getLat(), conductor.getPosicionHogar().getLon()); //cambiar por la ruta no pos HOGAR
-        markerConductor = mMap.addMarker(new MarkerOptions().position(locationChofer).title("Ride").icon(BitmapDescriptorFactory.fromResource(R.drawable.car_left)));
+       // LatLng locationChofer = new LatLng(conductor.getPosicionHogar().getLat(), conductor.getPosicionHogar().getLon()); //cambiar por la ruta no pos HOGAR
+       // markerConductor = mMap.addMarker(new MarkerOptions().position(locationChofer).title("Ride").icon(BitmapDescriptorFactory.fromResource(R.drawable.car_left)));
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -82,7 +91,7 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
                             e.printStackTrace();
                         }
                     }
-                    
+
                     if(MainActivity.estudiante != null){
                         MainActivity.estudiante.setPosicionHogar(new Posicion(lat, lon));
                         NuevoEstudiante test = new NuevoEstudiante();
@@ -92,7 +101,11 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
                             e.printStackTrace();
                         }
                     }
-
+                    //animateMarker(ubicacion,locationChofer,false);
+                    //if(latLng.equals(locationChofer)){
+                      //  ubicacion.remove();
+                       // animateMarker(locationChofer,posTEC,false);
+                  //  }
                 }
             }
         });
@@ -113,10 +126,45 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-
     }
 
+    public void animateMarker(final Marker marker, final LatLng toPosition,
+                              final boolean hideMarker) {
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        Projection proj = mMap.getProjection();
+        Point startPoint = proj.toScreenLocation(marker.getPosition());
+        final LatLng startLatLng = proj.fromScreenLocation(startPoint);
+        final long duration = 20000;
 
+        final Interpolator interpolator = new LinearInterpolator();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = interpolator.getInterpolation((float) elapsed
+                        / duration);
+                double lng = t * toPosition.longitude + (1 - t)
+                        * startLatLng.longitude;
+                double lat = t * toPosition.latitude + (1 - t)
+                        * startLatLng.latitude;
+                marker.setPosition(new LatLng(lat, lng));
+
+                if (t < 1.0) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 30);
+                } else {
+                    if (hideMarker) {
+                        marker.setVisible(false);
+                    } else {
+                        marker.setVisible(true);
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -129,6 +177,8 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
     }
+
+
 
     @Override
     public void onConnectionSuspended(int i) {
