@@ -24,7 +24,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.tec.comm.NuevoEstudiante;
 import com.tec.entities.Conductor;
+
+import java.io.IOException;
 
 public class StudentMapActivity extends FragmentActivity implements OnMapReadyCallback , GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener{
 
@@ -67,14 +70,27 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
             @Override
             public void onMapClick(LatLng latLng) {
                 if(ubicacion==null) {
+                    Double lat = ubicacion.getPosition().latitude;
+                    Double lon = ubicacion.getPosition().longitude;
                     ubicacion = mMap.addMarker(new MarkerOptions().position(latLng).title("Tu ubicacion").icon(BitmapDescriptorFactory.fromResource(R.drawable.student)));
                     if(RegistrationActivity.estudiante != null){
-                        RegistrationActivity.estudiante.setPosLatitud(ubicacion.getPosition().latitude);
-                        RegistrationActivity.estudiante.setPosLongitud(ubicacion.getPosition().longitude);
+                        RegistrationActivity.estudiante.setPosicionHogar(new Posicion(lat, lon));
+                        NuevoEstudiante test = new NuevoEstudiante();
+                        try {
+                            test.registrar(RegistrationActivity.estudiante);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
+                    
                     if(MainActivity.estudiante != null){
-                        MainActivity.estudiante.setPosLatitud(ubicacion.getPosition().latitude);
-                        MainActivity.estudiante.setPosLongitud(ubicacion.getPosition().longitude);
+                        MainActivity.estudiante.setPosicionHogar(new Posicion(lat, lon));
+                        NuevoEstudiante test = new NuevoEstudiante();
+                        try {
+                            test.registrar(RegistrationActivity.estudiante);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }

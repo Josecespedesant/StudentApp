@@ -22,7 +22,7 @@ public class NuevoEstudiante {
     String url = "http://192.168.100.7:8080/registro-estudiante";
     Gson gson = new Gson();
 
-    public boolean inicio(Estudiante estudiante) throws IOException {
+    public boolean registrar(Estudiante estudiante) throws IOException {
         String json = gson.toJson(estudiante);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = jsonParser.parse(json).getAsJsonObject();
