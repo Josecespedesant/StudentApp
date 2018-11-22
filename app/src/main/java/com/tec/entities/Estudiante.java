@@ -1,5 +1,7 @@
 package com.tec.entities;
 
+import com.tec.studentapp.Posicion;
+
 import java.util.LinkedList;
 
 /**
@@ -15,8 +17,7 @@ public class Estudiante {
     private LinkedList<Conductor> amigos;
     private int viajesRealizados;
     private int numCalificaciones;
-    private double posLongitud;
-    private double posLatitud;
+    private Posicion posicionHogar;
     private double promedio;
 
     public Estudiante(String nombre, String contrasena, String carnet, double posLongitud, double posLatitud) {
@@ -26,8 +27,7 @@ public class Estudiante {
         this.numCalificaciones = 0;
         this.amigos = new LinkedList<Conductor>();
         this.contrasena = contrasena;
-        this.posLatitud = posLatitud;
-        this.posLongitud = posLongitud;
+        this.posicionHogar = new Posicion(posLatitud, posLongitud);
     }
 
     public Estudiante(String nombre, String contrasena, String carnet, int numCalificaciones, int viajesRealizados,
@@ -39,8 +39,7 @@ public class Estudiante {
         this.contrasena = contrasena;
         this.amigos = amigos;
         this.promedio = promedio;
-        this.posLongitud = posLongitud;
-        this.posLatitud = posLatitud;
+        this.posicionHogar = new Posicion(posLatitud, posLongitud);
     }
 
     public int getViajesRealizados() {
@@ -59,20 +58,12 @@ public class Estudiante {
         this.numCalificaciones = numCalificaciones;
     }
 
-    public double getPosLongitud() {
-        return posLongitud;
+    public Posicion getPosicionHogar() {
+        return posicionHogar;
     }
 
-    public void setPosLongitud(double posLongitud) {
-        this.posLongitud = posLongitud;
-    }
-
-    public double getPosLatitud() {
-        return posLatitud;
-    }
-
-    public void setPosLatitud(double posLatitud) {
-        this.posLatitud = posLatitud;
+    public void setPosicionHogar(Posicion posicionHogar) {
+        this.posicionHogar = posicionHogar;
     }
 
     public double getPromedio() {
