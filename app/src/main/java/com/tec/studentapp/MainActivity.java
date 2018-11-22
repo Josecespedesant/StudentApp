@@ -63,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                Toast.makeText(getApplicationContext(),"c mamo",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Ha cancelado la opción",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Toast.makeText(getApplicationContext(),"CANELADO PA",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Ha ocurrido un error",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //if(carnet.getText().toString().equals(RegistrationActivity.carnet.getText().toString()) && passwordlogin.getText().toString().equals(RegistrationActivity.resultpass)){
+                    estudiante.setNecesitaViaje(true);
                     Intent mapa = new Intent(MainActivity.this, StudentMapActivity.class);
                     MainActivity.this.startActivity(mapa);
               //  }else{
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 String resultado = data.getStringExtra("resultado");
                 carnet.setText(resultado);
+                estudiante.setNecesitaViaje(true);
                 Intent mapa = new Intent(MainActivity.this, StudentMapActivity.class);
                 MainActivity.this.startActivity(mapa);
             }
