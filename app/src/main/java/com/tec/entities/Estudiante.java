@@ -17,17 +17,21 @@ public class Estudiante {
     private LinkedList<Conductor> amigos;
     private int viajesRealizados;
     private int numCalificaciones;
-    private Posicion posicionHogar;
+    private double posLongitud;
+    private double posLatitud;
     private double promedio;
+    private Posicion posicionHogar;
+    private boolean necesitaViaje = false;
 
     public Estudiante(String nombre, String contrasena, String carnet, double posLongitud, double posLatitud) {
         this.nombre = nombre;
-        this.carnet =carnet;
+        this.carnet = carnet;
         this.viajesRealizados = 0;
         this.numCalificaciones = 0;
         this.amigos = new LinkedList<Conductor>();
         this.contrasena = contrasena;
-        this.posicionHogar = new Posicion(posLatitud, posLongitud);
+        this.posLatitud = posLatitud;
+        this.posLongitud = posLongitud;
     }
 
     public Estudiante(String nombre, String contrasena, String carnet, int numCalificaciones, int viajesRealizados,
@@ -39,7 +43,8 @@ public class Estudiante {
         this.contrasena = contrasena;
         this.amigos = amigos;
         this.promedio = promedio;
-        this.posicionHogar = new Posicion(posLatitud, posLongitud);
+        this.posLongitud = posLongitud;
+        this.posLatitud = posLatitud;
     }
 
     public int getViajesRealizados() {
@@ -50,6 +55,22 @@ public class Estudiante {
         this.viajesRealizados = viajesRealizados;
     }
 
+    public Posicion getPosicionHogar() {
+        return posicionHogar;
+    }
+
+    public void setPosicionHogar(Posicion posicionHogar) {
+        this.posicionHogar = posicionHogar;
+    }
+
+    public boolean isNecesitaViaje() {
+        return necesitaViaje;
+    }
+
+    public void setNecesitaViaje(boolean necesitaViaje) {
+        this.necesitaViaje = necesitaViaje;
+    }
+
     public int getNumCalificaciones() {
         return numCalificaciones;
     }
@@ -58,12 +79,20 @@ public class Estudiante {
         this.numCalificaciones = numCalificaciones;
     }
 
-    public Posicion getPosicionHogar() {
-        return posicionHogar;
+    public double getPosLongitud() {
+        return posLongitud;
     }
 
-    public void setPosicionHogar(Posicion posicionHogar) {
-        this.posicionHogar = posicionHogar;
+    public void setPosLongitud(double posLongitud) {
+        this.posLongitud = posLongitud;
+    }
+
+    public double getPosLatitud() {
+        return posLatitud;
+    }
+
+    public void setPosLatitud(double posLatitud) {
+        this.posLatitud = posLatitud;
     }
 
     public double getPromedio() {

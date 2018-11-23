@@ -31,7 +31,7 @@ public class Conductor {
         this.nombre = nombre;
         this.contrasena = contrasena;
         this.carnet = carnet;
-        this.posicionHogar = new Posicion(posLongitud, posLongitud);
+        this.posicionHogar = new Posicion(posLongitud, posLatitud);
         this.numCalificaciones = 0;
         this.amigos = new LinkedList<Estudiante>();
     }
@@ -75,4 +75,3 @@ public class Conductor {
         return carnet;
     }
 }
-
