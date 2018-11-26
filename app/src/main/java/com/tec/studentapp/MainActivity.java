@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -31,10 +32,22 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.tec.entities.Conductor;
 import com.tec.entities.Estudiante;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -44,11 +57,31 @@ public class MainActivity extends AppCompatActivity {
     static TextView carnet;
     static EditText passwordlogin ;
     static Estudiante estudiante;
+    Gson gson = new Gson();
+    String urlInicioSesion = "http://172.18.210.63:8080/ingreso-estudiante";
+    OkHttpClient client = new OkHttpClient();
+    RelativeLayout iniciarsesion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        estudiante = null;
+
+        carnet = (TextView)findViewById(R.id.carnet);
+        passwordlogin = (EditText) findViewById(R.id.passwordlogin);
+        iniciarsesion = (RelativeLayout) findViewById(R.id.iniciarsesion);
+        iniciarsesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!carnet.getText().toString().isEmpty()&&!passwordlogin.getText().toString().isEmpty()){
+                    Estudiante estulog = new Estudiante(null, passwordlogin.getText().toString(),carnet.getText().toString(),0,0);
+                    inicioSesion(estulog);
+                }else {
+                    Toast.makeText(getApplicationContext(), "Ingresar todos los datos", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -114,6 +147,64 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TestSesion.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         startActivity(intent);
+    }
+
+    public void inicioSesion(Estudiante estudiante) {
+        String json = gson.toJson(estudiante);
+        final JsonParser jsonParser = new JsonParser();
+        final JsonObject jsonObject = jsonParser.parse(json).getAsJsonObject();
+        jsonObject.remove("amigos");
+        json = jsonObject.toString();
+
+        RequestBody requestBody = new FormBody.Builder()
+                .add("json", json)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(this.urlInicioSesion)
+                .addHeader("Content-Type", "text/plain")
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String myResponse = response.body().string();
+                    JsonObject json = jsonParser.parse(myResponse).getAsJsonObject();
+                    boolean exito = json.getAsJsonPrimitive("exitoso").getAsBoolean();
+
+                    if (exito) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, "Bienvenido!",
+                                        Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, StudentMapActivity.class);
+                                MainActivity.this.startActivity(intent);
+                            }
+                        });
+
+                    }
+                    else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this,
+                                        "Usuario o contrasena incorrecto", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+                }
+            }
+        });
     }
 
     @Override
